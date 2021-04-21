@@ -13,6 +13,7 @@ if((CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR (CMAKE_CXX_COMPILER_ID MATCHES "Clan
         -Werror
         -Wall
         -Wextra
+
         -Wpedantic
         -Wcast-align
         -Wcast-qual
