@@ -40,5 +40,11 @@ int main()
     }
     std::cout << "Esc key is pressed by user. Stoppig the video." << std::endl;
 
+    // When everything done, release the video capture and write object.
+    cap.release();
+
+    // Closes all the frames.
+    cv::destroyAllWindows();
+
     return EXIT_SUCCESS;
 }
