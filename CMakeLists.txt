@@ -31,9 +31,6 @@ file(GLOB_RECURSE SOURCES
     source/*.cpp
 )
 
-# Include directories
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
-
 find_package(OpenCV REQUIRED)
 
 # Set build type
