@@ -2,34 +2,22 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Project name
-project(capture_from_camera)
+project(capture_from_camera VERSION 1.0.0)
+
+configure_file(
+    project_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/project_version.h
+)
 
 # Option
 set(CMAKE_CXX_STANDARD 17)
 
 # Compiler-specific options
-if((CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
+if((CMAKE_CXX_COMPILER_ID MATCHES "GNU") OR(CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
     add_compile_options(
         -Werror
-        -pedantic-errors
-        
         -Wall
         -Wextra
         -Wpedantic
-
-        -Wcast-align
-        -Wcast-qual
-        -Wconversion
-        -Wextra-semi
-        -Wenum-compare
-        -Wfloat-equal
-        -Wnon-virtual-dtor
-        -Woverloaded-virtual
-        -Wredundant-decls
-        -Wold-style-cast
-        -Wsign-promo
-        -Wzero-as-null-pointer-constant
-        -Wsign-conversion
     )
 endif()
 
@@ -40,14 +28,22 @@ file(GLOB_RECURSE SOURCES
 
 find_package(OpenCV REQUIRED)
 
-# Set build type
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-endif(NOT CMAKE_BUILD_TYPE)
+# Boost components
+set(BOOST_COMPONENTS
+    program_options
+    system
+    filesystem
+)
+find_package(Boost COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
 
-# Compiling target
 add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 target_link_libraries(${PROJECT_NAME}
     ${OpenCV_LIBS}
+    ${Boost_LIBRARIES}
 )
