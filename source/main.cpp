@@ -43,7 +43,9 @@ int main(int argc, char* argv[])
     }
 
     if (!capture.isOpened()) {
-        std::cerr << "Cannot open the video camera!" << std::endl;
+        const std::string msg = filename.empty() ? "Cannot open video camera!"
+                                                 : "Cannot open video file/link: \'" + filename + "\'!";
+        std::cerr << msg << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -53,7 +55,7 @@ int main(int argc, char* argv[])
     height = (customHeight == 0) ? height : customHeight;
     const cv::Size customSize(width, height);
 
-    std::cout << "Resolution of the video: " << width << "x" << height << "." << std::endl;
+    std::cout << "Resolution of video: " << width << "x" << height << "." << std::endl;
     std::cout << "Frames per seconds: " << capture.get(cv::CAP_PROP_FPS) << "." << std::endl;
 
     static constexpr std::string_view WINDOW_NAME = "My Camera";
@@ -64,7 +66,9 @@ int main(int argc, char* argv[])
     while (cv::waitKey(DELAY_MS) != ESCAPE_KEY) {
         cv::Mat frame;
         if (!capture.read(frame)) {
-            std::cerr << "Video camera is disconnected!" << std::endl;
+            const std::string msg = filename.empty() ? "Video camera is disconnected!"
+                                                     : "Video is disconnected file/link: \'" + filename + "\'!";
+            std::cerr << msg << std::endl;
             return EXIT_FAILURE;
         }
 
