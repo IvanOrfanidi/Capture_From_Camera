@@ -1,5 +1,13 @@
 stages:
+  - check
   - build
+
+clang-format:
+  stage: check
+  script:
+    - git clone http://git.home.lan/root/check-clang-format.git
+    - cp check-clang-format/check-clang-format.py .
+    - python3 check-clang-format.py -r .
 
 gcc:
   stage: build
